@@ -1,18 +1,12 @@
 """
-build_data.py
-
 Pulls item/stage/zone metadata and drop-rate data from the Penguin Stats
 public API, and produces two JSON files for the site's frontend:
 
   data/materials.json  -> per-material list of stages that drop it,
-                          with pure drop rate and the stage's overall
-                          "value per sanity" score
+                          with pure drop rate
   data/meta.json        -> item/stage/zone names, for display and search
 
-Run this whenever you want to refresh the data:
-    python build_data.py
-
-Requires: pip install requests
+Run this to refresh the data
 """
 
 import json
@@ -20,11 +14,10 @@ import os
 import requests
 
 BASE = "https://penguin-stats.io/PenguinStats/api/v2"
-SERVER = "US"
+SERVER = "US"  # change to "CN", "JP", or "KR" if you play a different server
 OUT_DIR = "data"
 
-# Stages/items with very few samples produce noisy rates. Skip stage-item
-# pairs where the stage has been played fewer than this many times.
+# Stages/items with very few samples produce noisy rates. Skip stage-item pairs where the stage has been played fewer than this many times.
 MIN_TIMES = 200
 
 
@@ -34,27 +27,12 @@ def fetch(path):
     return r.json()
 
 
-def load_item_values():
-    """
-    Loads your manually-assigned 'worth' per item from item_values.json.
-    Any item not listed defaults to 0 (contributes nothing to stage value,
-    but still shows up in pure drop-rate lookups).
-    """
-    if not os.path.exists("item_values.json"):
-        print("item_values.json not found — stage 'value' scores will all be 0.")
-        return {}
-    with open("item_values.json", "r", encoding="utf-8") as f:
-        return json.load(f)
-
-
 def main():
     print(f"Fetching metadata and drop matrix for server={SERVER} ...")
     items = fetch("items")
     stages = fetch("stages")
     zones = fetch("zones")
     matrix = fetch("result/matrix")["matrix"]
-
-    item_values = load_item_values()
 
     # Build lookup tables
     item_names = {}
@@ -84,18 +62,6 @@ def main():
             continue
         by_stage.setdefault(row["stageId"], []).append(row)
 
-    # Compute each stage's overall "value per sanity"
-    stage_value = {}
-    for stage_id, rows in by_stage.items():
-        ap = stage_info.get(stage_id, {}).get("apCost")
-        if not ap:
-            continue
-        total = 0.0
-        for row in rows:
-            rate = row["quantity"] / row["times"]
-            total += rate * item_values.get(row["itemId"], 0)
-        stage_value[stage_id] = total / ap
-
     # Build per-material stage lists
     materials = {}
     for stage_id, rows in by_stage.items():
@@ -109,13 +75,8 @@ def main():
                 "zoneName": info.get("zoneName"),
                 "apCost": info.get("apCost"),
                 "dropRate": round(rate, 5),
-                "stageValue": round(stage_value.get(stage_id, 0), 4),
             }
             materials.setdefault(item_id, []).append(entry)
-
-    # Sort each material's stage list two ways isn't necessary here —
-    # the frontend will sort client-side by dropRate or stageValue.
-    # We just make sure the data is clean and complete.
 
     os.makedirs(OUT_DIR, exist_ok=True)
 

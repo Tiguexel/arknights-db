@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Arknights Resource Database</title>
+  <title>Arknights Material Database</title>
   <style>
     :root {
       --bg: #14181C;
@@ -194,8 +194,9 @@
 <body>
 
   <header>
-    <h1>Arknights Resource Database</h1>
-    <p>Search a material to see which stages drop it, which is fastest by pure rate, or which is best by overall stage value.</p>
+    <h1>Arknights Material Database</h1>
+    <h3>Welcome to the Arknights Material Database Website!</h3>
+    <p>Search a material to see which stages drop it: fastest by pure rate, or best by overall stage value.</p>
   </header>
 
   <main>
@@ -212,7 +213,6 @@
   <script>
     let materials = {};
     let currentItemId = null;
-    let sortMode = "rate"; // "rate" or "value"
 
     const searchInput = document.getElementById("search");
     const suggestionsBox = document.getElementById("suggestions");
@@ -220,14 +220,14 @@
 
     fetch("data/materials.json")
       .then(r => r.json())
-      .then(data => {materials = data;})
+      .then(data => { materials = data; })
       .catch(err => {
-        resultsBox.innerHTML = `<p class="empty">Couldn't load data/materials.json. (${err})</p>`;
+        resultsBox.innerHTML = `<p class="empty">Couldn't load data/materials.json (${err})</p>`;
       });
 
     searchInput.addEventListener("input", () => {
       const q = searchInput.value.trim().toLowerCase();
-      if (!q) {suggestionsBox.style.display = "none"; return;}
+      if (!q) { suggestionsBox.style.display = "none"; return; }
 
       const matches = Object.entries(materials)
         .filter(([id, m]) => m.name.toLowerCase().includes(q))
@@ -261,34 +261,22 @@
       render();
     }
 
-    function setSort(mode) {
-      sortMode = mode;
-      render();
-    }
-
     function render() {
       if (!currentItemId) return;
       const material = materials[currentItemId];
-      const stages = [...material.stages].sort((a, b) =>
-        sortMode === "rate" ? b.dropRate - a.dropRate : b.stageValue - a.stageValue
-      );
+      const stages = [...material.stages].sort((a, b) => b.dropRate - a.dropRate);
 
       const rows = stages.map((s, i) => `
       <tr class="${i === 0 ? 'top' : ''}">
         <td>${s.stageCode}<div class="zone">${s.zoneName || ''}</div></td>
         <td class="num data">${s.apCost ?? '—'}</td>
         <td class="num data">${(s.dropRate * 100).toFixed(2)}%</td>
-        <td class="num data">${s.stageValue.toFixed(3)}</td>
       </tr>
     `).join("");
 
       resultsBox.innerHTML = `
       <div class="toolbar">
         <h2>${material.name}</h2>
-        <div class="sort-toggle">
-          <button onclick="setSort('rate')" class="${sortMode === 'rate' ? 'active' : ''}">Fastest</button>
-          <button onclick="setSort('value')" class="${sortMode === 'value' ? 'active' : ''}">Best value</button>
-        </div>
       </div>
       <table>
         <thead>
@@ -296,10 +284,9 @@
             <th>Stage</th>
             <th class="num">AP</th>
             <th class="num">Drop rate</th>
-            <th class="num">Stage value</th>
           </tr>
         </thead>
-        <tbody>${rows || `<tr><td colspan="4" class="empty">No stage data for this material.</td></tr>`}</tbody>
+        <tbody>${rows || `<tr><td colspan="3" class="empty">No stage data for this material.</td></tr>`}</tbody>
       </table>
     `;
     }
