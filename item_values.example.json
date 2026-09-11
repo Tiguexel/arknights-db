@@ -1,7 +1,0 @@
-{
-  "_comment": "JSON doesn't support real comments, so read this as a normal (unused) key. Copy this file to item_values.json and fill in real itemIds once you've run build_data.py once — it'll write data/meta.json with the full items list (itemId -> name) so you can look up which id is which material. A rough starting scale: LMD/basic mats ~1, common crafting mats ~3-5, advanced mats ~8-15, elite/top-tier mats ~20-40. Tune these however you like later; they only affect the 'stage value' ranking, not the raw drop rates.",
-
-  "30012": 3,
-  "30013": 8,
-  "30014": 20
-}

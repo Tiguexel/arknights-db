@@ -1,282 +1,277 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Arknights Material Database</title>
-  <style>
-    :root {
-      --bg: #14181C;
-      --panel: #1C2126;
-      --panel-border: #2A3138;
-      --text: #E7EAEC;
-      --text-dim: #7C93A3;
-      --accent: #E3963E;
-      --accent-dim: #8A6432;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Materials Index</title>
+<style>
+  :root {
+    --bg: #14181C;
+    --panel: #1C2126;
+    --panel-border: #2A3138;
+    --text: #E7EAEC;
+    --text-dim: #7C93A3;
+    --accent: #E3963E;
+    --accent-dim: #8A6432;
+  }
 
-    * {
-      box-sizing: border-box;
-    }
+  * { box-sizing: border-box; }
 
-    body {
-      margin: 0;
-      background: var(--bg);
-      color: var(--text);
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-      line-height: 1.5;
-    }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    line-height: 1.5;
+  }
 
-    .data {
-      font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
-    }
+  .data { font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace; }
 
-    header {
-      padding: 2.5rem 1.5rem 1.5rem;
-      max-width: 780px;
-      margin: 0 auto;
-    }
+  header {
+    padding: 2.5rem 1.5rem 1.5rem;
+    max-width: 780px;
+    margin: 0 auto;
+  }
 
-    header h1 {
-      font-size: 1.6rem;
-      font-weight: 600;
-      margin: 0 0 0.35rem;
-    }
+  header h1 {
+    font-size: 1.6rem;
+    font-weight: 600;
+    margin: 0 0 0.35rem;
+  }
 
-    header p {
-      color: var(--text-dim);
-      margin: 0;
-      font-size: 0.95rem;
-    }
+  header p {
+    color: var(--text-dim);
+    margin: 0;
+    font-size: 0.95rem;
+  }
 
-    main {
-      max-width: 780px;
-      margin: 0 auto;
-      padding: 0 1.5rem 4rem;
-    }
+  main {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 0 1.5rem 4rem;
+  }
 
-    .search-row {
-      position: relative;
-      margin-bottom: 1rem;
-    }
+  .search-row {
+    position: relative;
+    margin-bottom: 1rem;
+  }
 
-    #search {
-      width: 100%;
-      padding: 0.75rem 1rem;
-      background: var(--panel);
-      border: 1px solid var(--panel-border);
-      border-radius: 6px;
-      color: var(--text);
-      font-size: 1rem;
-    }
+  #search {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    background: var(--panel);
+    border: 1px solid var(--panel-border);
+    border-radius: 6px;
+    color: var(--text);
+    font-size: 1rem;
+  }
 
-    #search:focus {
-      outline: none;
-      border-color: var(--accent);
-    }
+  #search:focus {
+    outline: none;
+    border-color: var(--accent);
+  }
 
-    #suggestions {
-      position: absolute;
-      top: calc(100% + 4px);
-      left: 0;
-      right: 0;
-      background: var(--panel);
-      border: 1px solid var(--panel-border);
-      border-radius: 6px;
-      max-height: 280px;
-      overflow-y: auto;
-      z-index: 10;
-      display: none;
-    }
+  #suggestions {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    background: var(--panel);
+    border: 1px solid var(--panel-border);
+    border-radius: 6px;
+    max-height: 280px;
+    overflow-y: auto;
+    z-index: 10;
+    display: none;
+  }
 
-    #suggestions button {
-      display: block;
-      width: 100%;
-      text-align: left;
-      padding: 0.55rem 1rem;
-      background: none;
-      border: none;
-      color: var(--text);
-      font-size: 0.95rem;
-      cursor: pointer;
-    }
+  #suggestions button {
+    display: block;
+    width: 100%;
+    text-align: left;
+    padding: 0.55rem 1rem;
+    background: none;
+    border: none;
+    color: var(--text);
+    font-size: 0.95rem;
+    cursor: pointer;
+  }
 
-    #suggestions button:hover,
-    #suggestions button.active {
-      background: rgba(227, 150, 62, 0.12);
-      color: var(--accent);
-    }
+  #suggestions button:hover,
+  #suggestions button.active {
+    background: rgba(227, 150, 62, 0.12);
+    color: var(--accent);
+  }
 
-    .toolbar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin: 1.75rem 0 0.75rem;
-    }
+  .toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 1.75rem 0 0.75rem;
+  }
 
-    .toolbar h2 {
-      font-size: 1.05rem;
-      font-weight: 600;
-      margin: 0;
-    }
+  .toolbar h2 {
+    font-size: 1.05rem;
+    font-weight: 600;
+    margin: 0;
+  }
 
-    .sort-toggle {
-      display: flex;
-      background: var(--panel);
-      border: 1px solid var(--panel-border);
-      border-radius: 6px;
-      overflow: hidden;
-    }
+  .sort-toggle {
+    display: flex;
+    background: var(--panel);
+    border: 1px solid var(--panel-border);
+    border-radius: 6px;
+    overflow: hidden;
+  }
 
-    .sort-toggle button {
-      padding: 0.4rem 0.85rem;
-      background: none;
-      border: none;
-      color: var(--text-dim);
-      font-size: 0.85rem;
-      cursor: pointer;
-    }
+  .sort-toggle button {
+    padding: 0.4rem 0.85rem;
+    background: none;
+    border: none;
+    color: var(--text-dim);
+    font-size: 0.85rem;
+    cursor: pointer;
+  }
 
-    .sort-toggle button.active {
-      background: var(--accent-dim);
-      color: var(--text);
-    }
+  .sort-toggle button.active {
+    background: var(--accent-dim);
+    color: var(--text);
+  }
 
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 0.9rem;
-    }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+  }
 
-    thead th {
-      text-align: left;
-      color: var(--text-dim);
-      font-weight: 500;
-      font-size: 0.78rem;
-      padding: 0 0.6rem 0.5rem;
-      border-bottom: 1px solid var(--panel-border);
-    }
+  thead th {
+    text-align: left;
+    color: var(--text-dim);
+    font-weight: 500;
+    font-size: 0.78rem;
+    padding: 0 0.6rem 0.5rem;
+    border-bottom: 1px solid var(--panel-border);
+  }
 
-    thead th.num,
-    tbody td.num {
-      text-align: right;
-    }
+  thead th.num, tbody td.num { text-align: right; }
 
-    tbody td {
-      padding: 0.65rem 0.6rem;
-      border-bottom: 1px solid var(--panel-border);
-    }
+  tbody td {
+    padding: 0.65rem 0.6rem;
+    border-bottom: 1px solid var(--panel-border);
+  }
 
-    tbody tr:hover {
-      background: rgba(255, 255, 255, 0.02);
-    }
+  tbody tr:hover { background: rgba(255,255,255,0.02); }
 
-    tbody tr.top td {
-      color: var(--accent);
-    }
+  tbody tr.top td { color: var(--accent); }
 
-    .zone {
-      color: var(--text-dim);
-      font-size: 0.82rem;
-    }
+  .zone { color: var(--text-dim); font-size: 0.82rem; }
 
-    .empty,
-    .hint {
-      color: var(--text-dim);
-      padding: 2rem 0;
-      text-align: center;
-      font-size: 0.9rem;
-    }
-  </style>
+  .empty, .hint {
+    color: var(--text-dim);
+    padding: 2rem 0;
+    text-align: center;
+    font-size: 0.9rem;
+  }
+</style>
 </head>
-
 <body>
 
-  <header>
-    <h1>Arknights Material Database</h1>
-    <h3>Welcome to the Arknights Material Database Website!</h3>
-    <p>Search a material to see which stages drop it: fastest by pure rate, or best by overall stage value.</p>
-  </header>
+<header>
+  <h1>Materials Index</h1>
+  <p>Search a material to see which stages drop it — fastest by pure rate, or best by overall stage value.</p>
+</header>
 
-  <main>
-    <div class="search-row">
-      <input id="search" type="text" placeholder="Search a material…" autocomplete="off">
-      <div id="suggestions"></div>
-    </div>
+<main>
+  <div class="search-row">
+    <input id="search" type="text" placeholder="Search a material…" autocomplete="off">
+    <div id="suggestions"></div>
+  </div>
 
-    <div id="results">
-      <p class="hint">Start typing a material name above.</p>
-    </div>
-  </main>
+  <div id="results">
+    <p class="hint">Start typing a material name above.</p>
+  </div>
+</main>
 
-  <script>
-    let materials = {};
-    let currentItemId = null;
+<script>
+  let materials = {};
+  let currentItemId = null;
+  let sortMode = "rate"; // "rate" or "value"
 
-    const searchInput = document.getElementById("search");
-    const suggestionsBox = document.getElementById("suggestions");
-    const resultsBox = document.getElementById("results");
+  const searchInput = document.getElementById("search");
+  const suggestionsBox = document.getElementById("suggestions");
+  const resultsBox = document.getElementById("results");
 
-    fetch("data/materials.json")
-      .then(r => r.json())
-      .then(data => { materials = data; })
-      .catch(err => {
-        resultsBox.innerHTML = `<p class="empty">Couldn't load data/materials.json (${err})</p>`;
-      });
-
-    searchInput.addEventListener("input", () => {
-      const q = searchInput.value.trim().toLowerCase();
-      if (!q) { suggestionsBox.style.display = "none"; return; }
-
-      const matches = Object.entries(materials)
-        .filter(([id, m]) => m.name.toLowerCase().includes(q))
-        .slice(0, 8);
-
-      if (matches.length === 0) {
-        suggestionsBox.style.display = "none";
-        return;
-      }
-
-      suggestionsBox.innerHTML = matches
-        .map(([id, m]) => `<button data-id="${id}">${m.name}</button>`)
-        .join("");
-      suggestionsBox.style.display = "block";
+  fetch("data/materials.json")
+    .then(r => r.json())
+    .then(data => { materials = data; })
+    .catch(err => {
+      resultsBox.innerHTML = `<p class="empty">Couldn't load data/materials.json — make sure it's in the same folder as this page. (${err})</p>`;
     });
 
-    suggestionsBox.addEventListener("click", (e) => {
-      const btn = e.target.closest("button");
-      if (!btn) return;
-      selectMaterial(btn.dataset.id);
-    });
+  searchInput.addEventListener("input", () => {
+    const q = searchInput.value.trim().toLowerCase();
+    if (!q) { suggestionsBox.style.display = "none"; return; }
 
-    document.addEventListener("click", (e) => {
-      if (!e.target.closest(".search-row")) suggestionsBox.style.display = "none";
-    });
+    const matches = Object.entries(materials)
+      .filter(([id, m]) => m.name.toLowerCase().includes(q))
+      .slice(0, 8);
 
-    function selectMaterial(itemId) {
-      currentItemId = itemId;
-      searchInput.value = materials[itemId].name;
+    if (matches.length === 0) {
       suggestionsBox.style.display = "none";
-      render();
+      return;
     }
 
-    function render() {
-      if (!currentItemId) return;
-      const material = materials[currentItemId];
-      const stages = [...material.stages].sort((a, b) => b.dropRate - a.dropRate);
+    suggestionsBox.innerHTML = matches
+      .map(([id, m]) => `<button data-id="${id}">${m.name}</button>`)
+      .join("");
+    suggestionsBox.style.display = "block";
+  });
 
-      const rows = stages.map((s, i) => `
+  suggestionsBox.addEventListener("click", (e) => {
+    const btn = e.target.closest("button");
+    if (!btn) return;
+    selectMaterial(btn.dataset.id);
+  });
+
+  document.addEventListener("click", (e) => {
+    if (!e.target.closest(".search-row")) suggestionsBox.style.display = "none";
+  });
+
+  function selectMaterial(itemId) {
+    currentItemId = itemId;
+    searchInput.value = materials[itemId].name;
+    suggestionsBox.style.display = "none";
+    render();
+  }
+
+  function setSort(mode) {
+    sortMode = mode;
+    render();
+  }
+
+  function render() {
+    if (!currentItemId) return;
+    const material = materials[currentItemId];
+    const stages = [...material.stages].sort((a, b) =>
+      sortMode === "rate" ? b.dropRate - a.dropRate : b.stageValue - a.stageValue
+    );
+
+    const rows = stages.map((s, i) => `
       <tr class="${i === 0 ? 'top' : ''}">
         <td>${s.stageCode}<div class="zone">${s.zoneName || ''}</div></td>
         <td class="num data">${s.apCost ?? '—'}</td>
         <td class="num data">${(s.dropRate * 100).toFixed(2)}%</td>
+        <td class="num data">${s.stageValue.toFixed(3)}</td>
       </tr>
     `).join("");
 
-      resultsBox.innerHTML = `
+    resultsBox.innerHTML = `
       <div class="toolbar">
         <h2>${material.name}</h2>
+        <div class="sort-toggle">
+          <button onclick="setSort('rate')" class="${sortMode === 'rate' ? 'active' : ''}">Fastest</button>
+          <button onclick="setSort('value')" class="${sortMode === 'value' ? 'active' : ''}">Best value</button>
+        </div>
       </div>
       <table>
         <thead>
@@ -284,14 +279,14 @@
             <th>Stage</th>
             <th class="num">AP</th>
             <th class="num">Drop rate</th>
+            <th class="num">Stage value</th>
           </tr>
         </thead>
-        <tbody>${rows || `<tr><td colspan="3" class="empty">No stage data for this material.</td></tr>`}</tbody>
+        <tbody>${rows || `<tr><td colspan="4" class="empty">No stage data for this material.</td></tr>`}</tbody>
       </table>
     `;
-    }
-  </script>
+  }
+</script>
 
 </body>
-
 </html>
